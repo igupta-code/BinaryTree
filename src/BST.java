@@ -83,7 +83,16 @@ public class BST {
      */
     public ArrayList<BSTNode> getPreorder() {
         // TODO: Complete preorder traversal
-        return null;
+        ArrayList<BSTNode> nodes = new ArrayList<BSTNode>();
+        return getPreorder(nodes, root);
+    }
+    public ArrayList<BSTNode> getPreorder(ArrayList<BSTNode> nodes, BSTNode n){
+        if(n == null)
+            return nodes;
+        nodes.add(n);
+        getPreorder(nodes, n.getLeft());
+        getPreorder(nodes, n.getRight());
+        return nodes;
     }
 
     /**
