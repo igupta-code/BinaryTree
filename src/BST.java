@@ -51,12 +51,15 @@ public class BST {
         return search(val, root);
     }
     public boolean search(int val, BSTNode n){
+        // It's not in the tree if n is null bc we've checked all nodes
         if(n == null){
             return false;
         }
+        // If we've found val, return true
         if(val == n.getVal()){
             return true;
         }
+        // Recurse to the right and left
         return search(val, n.getLeft()) || search(val, n.getRight());
     }
 
@@ -69,8 +72,10 @@ public class BST {
         return getInorder(nodes, root);
     }
     public ArrayList<BSTNode> getInorder(ArrayList<BSTNode> nodes, BSTNode n){
+        // Base case: when n is null, code has traversed through entire array
         if(n == null)
             return nodes;
+        // Order = left, root, right
         getInorder(nodes, n.getLeft());
         nodes.add(n);
         getInorder(nodes, n.getRight());
@@ -87,8 +92,10 @@ public class BST {
         return getPreorder(nodes, root);
     }
     public ArrayList<BSTNode> getPreorder(ArrayList<BSTNode> nodes, BSTNode n){
+        // Base case: when n is null, code has traversed through entire array
         if(n == null)
             return nodes;
+        // order: root, left, right
         nodes.add(n);
         getPreorder(nodes, n.getLeft());
         getPreorder(nodes, n.getRight());
@@ -100,7 +107,18 @@ public class BST {
      */
     public ArrayList<BSTNode> getPostorder() {
         // TODO: Complete postorder traversal
-        return null;
+        ArrayList<BSTNode> nodes = new ArrayList<BSTNode>();
+        return getPostorder(nodes, root);
+    }
+    public ArrayList<BSTNode> getPostorder(ArrayList<BSTNode> nodes, BSTNode n){
+        // Base case: when n is null, code has traversed through entire array
+        if(n == null)
+            return nodes;
+        // order: left, right, root
+        getPostorder(nodes, n.getLeft());
+        getPostorder(nodes, n.getRight());
+        nodes.add(n);
+        return nodes;
     }
 
     /**
@@ -111,6 +129,27 @@ public class BST {
      */
     public void insert(int val) {
         // TODO: Complete insert
+        insert(val, root);
+    }
+    public void insert(int val, BSTNode node){
+        // Checks if val is already in the tree -- doesn't do anything
+        if(node.getVal() == val){
+            return;
+        }
+        // If either child is empty, check if value fits there(ie if it's smaller than node it goes to the left)
+        else if(node.getLeft() == null && val < node.getVal()){
+            node.setLeft(new BSTNode(val));
+            return;
+        }
+        else if(node.getRight() == null && val > node.getVal()){
+            node.setRight(new BSTNode(val));
+            return;
+        }
+        // Recurse to left or right depending on if val is greater or less than the node
+        if(val < node.getVal())
+            insert(val, node.getLeft());
+        if(val > node.getVal())
+            insert(val, node.getRight());
     }
 
     /**
